@@ -1,0 +1,9 @@
+openai
+qdrant-client
+sentence-transformers
+neo4j
+spacy
+pyyaml
+gradio
+pdfminer.six
+python-dotenv
