@@ -1,45 +1,20 @@
-from dataclasses import dataclass
+from openai import OpenAI
+from dotenv import load_dotenv
+import os
 
-@dataclass
-class Message:
+load_dotenv()
 
-    role: str
-    content: str
+client = OpenAI(
+    api_key=os.getenv("API_KEY"),
+    base_url=os.getenv("BASE_URL")
+)
 
+def chat(messages):
 
-class MessageHistory:
+    response = client.chat.completions.create(
+        model=os.getenv("MODEL"),
+        messages=messages,
+        temperature=0.7
+    )
 
-    def __init__(self):
-
-        self.messages = []
-
-    def add_user(self, content):
-
-        self.messages.append(
-            {
-                "role": "user",
-                "content": content
-            }
-        )
-
-    def add_assistant(self, content):
-
-        self.messages.append(
-            {
-                "role": "assistant",
-                "content": content
-            }
-        )
-
-    def add_system(self, content):
-
-        self.messages.append(
-            {
-                "role": "system",
-                "content": content
-            }
-        )
-
-    def get_messages(self):
-
-        return self.messages
+    return response.choices[0].message.content
